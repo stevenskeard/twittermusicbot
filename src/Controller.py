@@ -14,6 +14,7 @@ playAddress = '/tmp/twittermusicbot/socket/playqueue'
 #Make sure we are main
 if __name__ == '__main__':
 
+    #Wrap the whole thing in a try to ensure the threads get exited in the finally clause
     try:
 
         #Make sure the directories exists
@@ -41,6 +42,7 @@ if __name__ == '__main__':
         searchAndDownloadThread.start()
         audioPlayerThread.start()
 
+        #Just loop forever, or until we get an exception at least
         while True:
             try:
                 pass
@@ -51,5 +53,6 @@ if __name__ == '__main__':
         twitterThread.stop()
         searchAndDownloadThread.stop()
         audioPlayerThread.stop()
-    raise SystemExit
 
+#Shouldn't ever reach here but include an exit for safety's sake
+raise SystemExit
