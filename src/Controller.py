@@ -43,12 +43,13 @@ if __name__ == '__main__':
 
         while True:
             try:
-
+                pass
             except:
+                raise Exception("Exiting")
 
     finally:
         twitterThread.stop()
         searchAndDownloadThread.stop()
         audioPlayerThread.stop()
+    raise SystemExit
 
-raise SystemExit
