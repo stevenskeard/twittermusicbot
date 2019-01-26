@@ -1,4 +1,9 @@
+TwitterMusicBot (2019) is a rewrite of the original that I wrote around 2013
 
+TwitterMusicBot is a simple Python bot that monitors twitter for a hashtag.
+It parses tweets containing the hashtag and search to find a match on YouTube.
+It will download the best match (top result from the search parameters) as long as it is less than 100MB (Avoiding things like 10 hour mixes...)
+Then it will add them to a queue of songs to play
 
 References:
 https://hub.docker.com/_/python/?tab=description
