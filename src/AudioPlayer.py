@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import socket
+import time
 from threading import Thread
 from SocketReceiver import SocketReceiver
 
@@ -16,7 +17,8 @@ class AudioPlayer(Thread):
     def run(self):
         while True:
             try:
-                print ("AudioPlayer")
+                print("AudioPlayer")
+                time.sleep(5)
             except KeyboardInterrupt:
                 raise KeyboardInterrupt
 

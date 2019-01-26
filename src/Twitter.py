@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import socket
+import time
 from threading import Thread
 from SocketSender import SocketSender
 
@@ -16,7 +17,8 @@ class Twitter(Thread):
     def run(self):
         while True:
             try:
-                print ("Twitter")
+                print("Twitter")
+                time.sleep(5)
             except KeyboardInterrupt:
                 raise KeyboardInterrupt
     def stop(self):

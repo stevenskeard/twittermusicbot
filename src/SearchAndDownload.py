@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import socket
+import time
 from threading import Thread
 from SocketReceiver import SocketReceiver
 from SocketSender import SocketSender
@@ -19,7 +20,8 @@ class SearchAndDownload(Thread):
     def run(self):
         while True:
             try:
-                print ("SearchAndDownload")
+                print("SearchAndDownload")
+                time.sleep(5)
             except KeyboardInterrupt:
                 raise KeyboardInterrupt
 
