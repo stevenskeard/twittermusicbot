@@ -1,17 +1,23 @@
 #!/usr/bin/env python
-import socket,os
-from threading import threading.Thread
-from .SocketSender import SocketSender
+import socket
+from threading import Thread
+from SocketSender import SocketSender
 
-class SearchAndDownload:
+class Twitter(Thread):
 
     # Class Attributes
-    sendSocket = null
+    sendSocket = None
 
     # Initializer / Instance Attributes
-    def __init__(self, recvAddress, sendAddress):
-        sendSocket = SocketSender("Twitter", sendAddress)
+    def __init__(self, sendAddress):
+        Thread.__init__(self)
+        sendSocket = SocketSender(sendAddress)
 
     def run(self):
-        #Temp - exit
-        raise SystemExit
+        while True:
+            try:
+                print ("Twitter")
+            except KeyboardInterrupt:
+                raise KeyboardInterrupt
+    def stop(self):
+        pass

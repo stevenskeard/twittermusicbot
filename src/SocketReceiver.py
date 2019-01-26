@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-import socket,os
+import socket
 
 class SocketReceiver:
 
     # Class Attributes
-    address = null
+    address = None
     maxMessageSize = 1024
 
     # Initializer / Instance Attributes

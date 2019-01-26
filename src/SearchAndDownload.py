@@ -1,20 +1,27 @@
 #!/usr/bin/env python
-import socket,os
-from threading import threading.Thread
-from .SocketReceiver import SocketReceiver
-from .SocketSender import SocketSender
+import socket
+from threading import Thread
+from SocketReceiver import SocketReceiver
+from SocketSender import SocketSender
 
-class SearchAndDownload:
+class SearchAndDownload(Thread):
 
     # Class Attributes
-    recvSocket = null
-    sendSocket = null
+    recvSocket = None
+    sendSocket = None
 
     # Initializer / Instance Attributes
     def __init__(self, recvAddress, sendAddress):
-        recvSocket = SocketReceiver("SearchAndDownload", recvAddress)
-        sendSocket = SocketSender("SearchAndDownload", sendAddress)
+        Thread.__init__(self)
+        recvSocket = SocketReceiver(recvAddress)
+        sendSocket = SocketSender(sendAddress)
 
     def run(self):
-        #Temp - exit
-        raise SystemExit
+        while True:
+            try:
+                print ("SearchAndDownload")
+            except KeyboardInterrupt:
+                raise KeyboardInterrupt
+
+    def stop(self):
+        pass

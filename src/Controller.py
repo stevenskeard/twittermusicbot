@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
-from .AudioPlayer import AudioPlayer
-from .SearchAndDownload import SearchAndDownload
-from .Twitter import Twitter
+import os
+import errno
+from AudioPlayer import AudioPlayer
+from SearchAndDownload import SearchAndDownload
+from Twitter import Twitter
 
 #Define the paths to be used
 rootDir = '/tmp/twittermusicbot'
@@ -10,6 +12,10 @@ downloadDir = rootDir + '/downloads'
 socketDir = rootDir + '/sockets'
 downloadAddress = '/tmp/twittermusicbot/socket/downloadqueue'
 playAddress = '/tmp/twittermusicbot/socket/playqueue'
+
+twitterThread = None
+searchAndDownloadThread = None
+audioPlayerThread = None
 
 #Make sure we are main
 if __name__ == '__main__':
@@ -33,9 +39,9 @@ if __name__ == '__main__':
             pass
 
         #Create all the threads we will need
-        twitterThread = Twitter("Twitter", downloadAddress)
-        searchAndDownloadThread = SearchAndDownload("SearchAndDownload", downloadAddress, playAddress)
-        audioPlayerThread = AudioPlayer("AudioPlayer", playAddress)
+        twitterThread = Twitter(downloadAddress)
+        searchAndDownloadThread = SearchAndDownload(downloadAddress, playAddress)
+        audioPlayerThread = AudioPlayer(playAddress)
 
         #Start all the threads
         twitterThread.start()
@@ -50,9 +56,12 @@ if __name__ == '__main__':
                 raise Exception("Exiting")
 
     finally:
-        twitterThread.stop()
-        searchAndDownloadThread.stop()
-        audioPlayerThread.stop()
+        if twitterThread:
+            twitterThread.stop()
+        if searchAndDownloadThread:
+            searchAndDownloadThread.stop()
+        if audioPlayerThread:
+            audioPlayerThread.stop()
 
 #Shouldn't ever reach here but include an exit for safety's sake
 raise SystemExit

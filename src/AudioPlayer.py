@@ -1,19 +1,24 @@
 #!/usr/bin/env python
-import socket,os
-from threading import threading.Thread
-from .SocketReceiver import SocketReceiver
+import socket
+from threading import Thread
+from SocketReceiver import SocketReceiver
 
 class AudioPlayer(Thread):
 
     # Class Attributes
-    recvSocket = null
+    recvSocket = None
 
     # Initializer / Instance Attributes
     def __init__(self, address):
-        super(self)
-        address = _address
-        recvSocket = SocketReceiver("AudioPlayer", address)
+        Thread.__init__(self)
+        recvSocket = SocketReceiver(address)
 
     def run(self):
-        #Temp - exit
-        raise SystemExit
+        while True:
+            try:
+                print ("AudioPlayer")
+            except KeyboardInterrupt:
+                raise KeyboardInterrupt
+
+    def stop(self):
+        pass
