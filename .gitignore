@@ -102,3 +102,6 @@ ENV/
 
 # Intellij
 .idea/
+
+# Gradle
+.gradle/
