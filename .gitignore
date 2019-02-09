@@ -105,3 +105,7 @@ ENV/
 
 # Gradle
 .gradle/
+.gitsecret/keys/random_seed
+
+# Secrets
+twitter-tokens.json
