@@ -10,6 +10,9 @@ class Controller:
 
     def initialize(self):
 
+        #Print something so its easier to check that it is running
+        print("TwitterMusicBot -- Initializing")
+
         #Define the paths to be used
         rootDir = '/tmp/twittermusicbot'
         downloadDir = rootDir + '/downloads'
@@ -21,6 +24,9 @@ class Controller:
         twitterThread = None
         searchAndDownloadThread = None
         audioPlayerThread = None
+
+        # Initialization is done so print to know that we're just looping from here on out
+        print("TwitterMusicBot -- Running")
 
         #Wrap the whole thing in a try to ensure the threads get exited in the finally clause
         try:

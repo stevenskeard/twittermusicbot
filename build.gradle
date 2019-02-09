@@ -1,47 +1,51 @@
 apply plugin: 'base'
 
-task srcZip(type: Zip){
+task srcZip(type: Zip) {
     classifier = 'src'
     from projectDir
     include 'src/**/*'
 }
 
-task buildDockerImage(type: Exec){
+task buildDockerImage(type: Exec) {
     dependsOn srcZip
-    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine 'cmd', '/c', "docker build . --tag ${tagName}:${version}"
-    } else {
-        commandLine "docker build . --tag ${tagName}:${version}"
-    }
+    workingDir "${projectDir}"
+    executable "docker"
+    args "build", ".", "--tag", "${tagName}:${version}"
 }
 
-task runDockerImage(type: Exec) {
-    dependsOn buildDockerImage
-    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine 'cmd', '/c', "docker run --name ${tagName} ${tagName}:${version}"
-    } else {
-        commandLine "docker run -rm --name ${tagName} ${tagName}:${version}"
-    }
+task stopDockerContainer(type: Exec) {
+    workingDir "${projectDir}"
+    executable "docker"
+    args "container", "stop", "${tagName}"
+    ignoreExitValue true
 }
 
-task stopDockerContainer(type: Exec){
-    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine 'cmd', '/c', "docker container stop ${tagName}:${version} > nul 2> nul"
-    } else {
-        commandLine "docker container stop ${tagName}:${version}  || true"
-    }
-}
-
-task removeDockerImage(type: Exec){
+task removeDockerContainer(type: Exec) {
     dependsOn stopDockerContainer
-    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine 'cmd', '/c', "docker image rm ${tagName}:${version}  > nul 2> nul"
-    } else {
-        commandLine "docker image rm ${tagName}:${version}  || true"
-    }
+    workingDir "${projectDir}"
+    executable "docker"
+    args "container", "rm", "${tagName}"
+    ignoreExitValue true
 }
 
-build.dependsOn srcZip
-build.dependsOn buildDockerImage
-clean.dependsOn stopDockerContainer
+task removeDockerImage(type: Exec) {
+    dependsOn removeDockerContainer
+    workingDir "${projectDir}"
+    executable "docker"
+    args "image", "rm", "${tagName}:${version}"
+    ignoreExitValue true
+}
+
+task deployDockerContainer(type: Exec) {
+    dependsOn build
+    workingDir "${projectDir}"
+    executable "docker"
+    args "run", "-d", "--name", "${tagName}", "${tagName}:${version}"
+}
+
+task run {
+    dependsOn clean, deployDockerContainer
+}
+
+build.dependsOn buildDockerImage, srcZip
 clean.dependsOn removeDockerImage
