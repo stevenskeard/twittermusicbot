@@ -2,7 +2,6 @@
 import socket
 
 class SocketSender:
-
     # Class Attributes
     address = None
     maxMessageSize = 1024
@@ -12,6 +11,7 @@ class SocketSender:
         address = _address
 
     def sendMessage(self, message):
+        s = None
         while True:
             try:
                 s = socket.socket(SOCKET.AF_UNIX, socket.SOCK_STREAM)
@@ -21,4 +21,5 @@ class SocketSender:
             except:
                 pass
             finally:
-                s.close()
+                if(s is not None):
+                    s.close()

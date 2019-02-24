@@ -1,26 +1,27 @@
 #!/usr/bin/env python
-import socket
-import time
 from threading import Thread
+from subprocess import call
+
 from SocketReceiver import SocketReceiver
 
 class AudioPlayer(Thread):
-
     # Class Attributes
-    recvSocket = None
+    receive_socket = None
+    video_dir = None
 
     # Initializer / Instance Attributes
-    def __init__(self, address):
+    def __init__(self, address, video_dir):
         Thread.__init__(self)
-        recvSocket = SocketReceiver(address)
+        self.receive_socket = SocketReceiver(address)
+        self.video_dir = video_dir
 
     def run(self):
         while True:
             try:
-                print("AudioPlayer")
-                time.sleep(5)
+                next_video = self.receive_socket.getMessage()
+                call("mpg123 " + self.video_dir + "/" + next_video, shell=True)
             except KeyboardInterrupt:
                 raise KeyboardInterrupt
 
-    def stop(self):
-        pass
+def stop(self):
+    pass

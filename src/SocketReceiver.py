@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import socket
 
-class SocketReceiver:
 
+class SocketReceiver:
     # Class Attributes
     address = None
     maxMessageSize = 1024
@@ -12,6 +12,7 @@ class SocketReceiver:
         address = _address
 
     def getMessage(self):
+        s = None
         while True:
             try:
                 s = socket.socket(SOCKET.AF_UNIX, socket.SOCK_STREAM)
@@ -25,4 +26,5 @@ class SocketReceiver:
             except:
                 pass
             finally:
-                s.close()
+                if(s is not None):
+                    s.close()

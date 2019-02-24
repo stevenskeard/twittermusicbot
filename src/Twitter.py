@@ -1,18 +1,18 @@
 #!/usr/bin/env python
-import socket
 import time
 from threading import Thread
+
 from SocketSender import SocketSender
 
-class Twitter(Thread):
 
+class Twitter(Thread):
     # Class Attributes
-    sendSocket = None
+    send_socket = None
 
     # Initializer / Instance Attributes
-    def __init__(self, sendAddress):
+    def __init__(self, send_address):
         Thread.__init__(self)
-        sendSocket = SocketSender(sendAddress)
+        self.send_socket = SocketSender(send_address)
 
     def run(self):
         while True:
@@ -21,5 +21,6 @@ class Twitter(Thread):
                 time.sleep(5)
             except KeyboardInterrupt:
                 raise KeyboardInterrupt
+
     def stop(self):
         pass
